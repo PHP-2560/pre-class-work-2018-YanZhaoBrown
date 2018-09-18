@@ -6,6 +6,6 @@ This folder will be where you complete your pre-class each week. The first time 
 Before you continue, Edit this document with:
 
 
-- Preferred Name: _Yan Zhao____________________
-- Brown Name: _yzhao101____________________
-- Brown E-mail: _yan_zhao@brown.edu_____________
+- Preferred Name: _  Yan Zhao_
+- Brown Name: _  yzhao101_
+- Brown E-mail: _  yan_zhao@brown.edu_
