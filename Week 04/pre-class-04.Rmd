@@ -89,7 +89,11 @@ B. Now, again using a loop, add a new column to the dataframe called “invalid.
 ```{r}
 invalid.answer = vector(mode = "numeric", length = dim(survey.clean)[1])
 for (i in 1:dim(survey.clean)[1]) {
-  invalid.answer[i] = sum(survey.clean[i,-1], na.rm =TRUE)
+  for (j in 2:dim(survey.clean)[2]) {
+    if (is.na(survey.clean[i,j])) {
+      invalid.answer[i] = invalid.answer[i] + 1
+    }
+  }
 }
 cbind(survey.clean, invalid.answer)
 ```
