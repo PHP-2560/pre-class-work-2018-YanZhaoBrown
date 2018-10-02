@@ -10,13 +10,49 @@ Make sure you commit this often with meaningful messages.
 
 Using a loop, print the integers from 1 to 50. 
 
+```{r}
+for (i in 1:50) {
+  print(i)
+}
+```
+
 ### Question 2:
 
 A.  Using a loop, add all the integers between 0 and 1000.
 
+```{r}
+sum = 0
+for (i in 0:1000) {
+  sum = sum + i
+}
+sum
+```
+
 B. Now, add all the EVEN integers between 0 and 1000 (hint: use seq())
 
+```{r}
+sum = 0
+x = seq(from = 0, to = 1000, by = 1)
+for (i in 1:length(x)) {
+  if (x[i] %% 2 == 0) {
+    sum = sum + x[i] 
+  }
+}
+sum
+```
+
 C. Now, repeat A and B WITHOUT using a loop.
+
+```{r}
+##Repeating for A
+x = 0:1000
+sum_a = sum(x)
+sum_a
+
+##Repeating for B
+sum(x[x %%2 == 0])
+
+```
 
 ### Question 3:
 
@@ -36,4 +72,24 @@ The response to each question should be an integer between 1 and 5. Obviously, w
 
 A. Using a loop, create a new dataframe called survey.clean where all the invalid values (those that are not integers between 1 and 5) are set to NA.
 
+```{r}
+survey.clean = survey
+for (i in 1:dim(survey.clean)[1]) {
+  for (j in 2:dim(survey.clean)[2]) {
+    if (survey[i,j] <1 | survey[i,j] > 5) {
+      survey.clean[i,j] = NA
+    }
+  }
+}
+survey.clean
+```
+
 B. Now, again using a loop, add a new column to the dataframe called “invalid.answers” that indicates, for each participant, how many bad answers they gave.
+
+```{r}
+invalid.answer = vector(mode = "numeric", length = dim(survey.clean)[1])
+for (i in 1:dim(survey.clean)[1]) {
+  invalid.answer[i] = sum(survey.clean[i,-1], na.rm =TRUE)
+}
+cbind(survey.clean, invalid.answer)
+```
