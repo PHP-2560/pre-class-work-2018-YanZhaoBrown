@@ -12,24 +12,65 @@ knitr::opts_chunk$set(echo = TRUE)
 
 1. Read the source code for each of the following three functions, puzzle out what they do, and then brainstorm better names.
 
-```
-f1 <- function(string, prefix) {
+```{r}
+check__string_identical <- function(string, prefix) { ## The function is to check whether prefix is equals to the first part of string
   substr(string, 1, nchar(prefix)) == prefix
+  print(prefix)
 }
-f2 <- function(x) {
+delete_end <- function(x) { ## Remove the last one item of a vector if the vector contains more than one elements
   if (length(x) <= 1) return(NULL)
   x[-length(x)]
 }
-f3 <- function(x, y) {
+repeat_exact_length <- function(x, y) { ## Repeat y the length of x times
   rep(y, length.out = length(x))
 }
 ```
 
+
 2. Compare and contrast rnorm() and MASS::mvrnorm(). How could you make them more consistent?
+
+*rnorm() is the function to generate random numbers from one-dimension normal distribution, with default value mu = 0 and sigma = 1. We need to set how many numbers we want to generate. We can also change mu and sigma as well
+mvrnorm() is the function to generate one or more samples from the specific multivariate distribution, with default value n = 1, tol = 1e-6.We need to specify the mu and sigma, we can change number of random vectors as well. *
+
+```{r}
+## Use mvrnorm to generate rnorm
+
+library(MASS)
+generate_rnorm = function(n, mu = 0, Sigma = 1) {
+  stopifnot(length(mu) == 1 & ncol(sigma) == 1 & nrow(Sigma) == 1)
+  as.vector(mvrnorm(n, mu, Sigma))
+}
+
+generate_rnorm(3)
+
+```
 
 
 3. Use `lapply()` and an anonymous function to find the coefficient of variation (the standard deviation divided by the mean) for all columns in the mtcars dataset. 
 
+```{r}
+data(mtcars)
+lapply(mtcars, function(x) sd(x,na.rm = TRUE)/mean(x, na.rm = TRUE))
+
+```
+
 4. Use vapply() to:
     a. Compute the standard deviation of every column in a numeric data frame.
     b. Compute the standard deviation of every numeric column in a mixed data frame. (Hint: you’ll need to use vapply() twice.)
+    
+```{r}
+sd_vapply = function(x) {
+  stopifnot(is.data.frame(x))
+  vapply(x, function(x,na.rm = T) sd(x), numeric(1))
+}
+#sd_vapply(mtcars)
+
+sd_vapply = function(x) {
+  stopifnot(is.data.frame(x))
+  judge = vapply(x, is.numeric, logical(1))
+  vapply(x[judge], function(x,na.rm = T) sd(x), numeric(1))
+  
+}
+#new_data = data.frame("SN" = 1:2, "Age" = c(21,15), "Name" = c("John","Dora"))
+#sd_vapply(new_data)
+```
